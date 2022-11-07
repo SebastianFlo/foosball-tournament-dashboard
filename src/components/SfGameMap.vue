@@ -2,7 +2,7 @@
   <SfSection class="sf-game-map">
     <SfTeamItem>
       <template #icon>
-        <SupportIcon />
+        <IconArrowUp />
       </template>
       <template #firstTeam>Team 1</template>
       <template #secondTeam>Team Avengers of Tomorrow 2</template>
@@ -12,7 +12,7 @@
 
 <script setup lang="ts">
 import SfTeamItem from "./SfTeamItem.vue";
-import SupportIcon from "./icons/IconSupport.vue";
+import IconArrowUp from "./icons/IconArrowUp.vue";
 import SfSection from "./SfSection.vue";
 </script>
 

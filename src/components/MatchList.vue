@@ -1,18 +1,27 @@
 <template>
   <main class="sf-match-list">
-    All Teams
+    <!-- All Teams
     {{ allTeams }}
     All Games
-    {{ allGames }}
+    {{ allGames }} -->
 
-    <MatchGame game=""></MatchGame>
+    <MatchGame
+      v-for="game of allGames"
+      :game="game"
+      :key="game?.id"
+    ></MatchGame>
   </main>
 </template>
 
 <script lang="ts">
 import { useGame } from "@/hooks/use-game";
+import MatchGame from "./MatchGame.vue";
 
 export default {
+  name: "MatchList",
+  components: {
+    MatchGame,
+  },
   setup() {
     const { allTeams, allGames } = useGame();
 

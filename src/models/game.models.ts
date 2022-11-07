@@ -3,10 +3,12 @@ export interface Game {
   firstTeam: Team;
   secondTeam: Team;
   match: {
+    id: string;
     firstTeamPoints: number;
     secondTeamPoints: number;
   };
   rematch: {
+    id: string;
     firstTeamPoints: number;
     secondTeamPoints: number;
   };

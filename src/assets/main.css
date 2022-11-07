@@ -35,3 +35,7 @@ a,
     padding: 0 2rem;
   }
 }
+
+.clickable {
+  cursor: pointer;
+}

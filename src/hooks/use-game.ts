@@ -22,7 +22,7 @@ const nextColor = computed(() => COLORS[allTeams.value.length]);
 // Dynamically generate game combinations
 const generateGames = (newTeam: Team): (Game | null)[] => {
   const teamGames: (Game | null)[] = [];
-  if (allTeams.value.length < 2) {
+  if (allTeams.value.length < 1) {
     return [];
   }
 
@@ -33,10 +33,12 @@ const generateGames = (newTeam: Team): (Game | null)[] => {
       firstTeam: team,
       secondTeam: newTeam,
       match: {
+        id: `game_${team.id}_${newTeam.id}_match`,
         firstTeamPoints: 0,
         secondTeamPoints: 0,
       },
       rematch: {
+        id: `game_${team.id}_${newTeam.id}_rematch`,
         firstTeamPoints: 0,
         secondTeamPoints: 0,
       },
@@ -70,12 +72,69 @@ export function useGame() {
       ],
     };
 
-    allTeams.value.push(newTeam);
     allGames.value = [...allGames.value, ...generateGames(newTeam)];
+    allTeams.value.push(newTeam);
+  };
+
+  const increaseScore = async (
+    gameId: Game["id"],
+    teamKey: "firstTeamPoints" | "secondTeamPoints",
+    matchId: Game["match"]["id"]
+  ) => {
+    allGames.value = allGames.value.map((game: Game | null) => {
+      if (game?.id === gameId) {
+        const matchOrRematch = game.match.id === matchId ? "match" : "rematch";
+
+        const match = {
+          ...game[matchOrRematch],
+          [teamKey]:
+            game[matchOrRematch][teamKey] >= 10
+              ? 10
+              : game[matchOrRematch][teamKey] + 1,
+        };
+
+        return {
+          ...game,
+          [matchOrRematch]: { ...match },
+        };
+      }
+
+      return game;
+    });
+  };
+
+  const decreaseScore = async (
+    gameId: Game["id"],
+    teamKey: "firstTeamPoints" | "secondTeamPoints",
+    matchId: Game["match"]["id"]
+  ) => {
+    allGames.value = allGames.value.map((game: Game | null) => {
+      if (game?.id === gameId) {
+        const matchOrRematch = game.match.id === matchId ? "match" : "rematch";
+
+        const match = {
+          ...game[matchOrRematch],
+          [teamKey]:
+            game[matchOrRematch][teamKey] <= 0
+              ? 0
+              : game[matchOrRematch][teamKey] - 1,
+        };
+
+        return {
+          ...game,
+          [matchOrRematch]: { ...match },
+        };
+      }
+
+      return game;
+    });
   };
 
   return {
     createTeam,
+
+    increaseScore,
+    decreaseScore,
 
     allTeams,
     allGames,
