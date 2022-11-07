@@ -29,9 +29,9 @@ a,
   #app {
     display: grid;
     grid-template-areas:
-    'left right'
-    'left right'
-    'left right';
+    'left right right'
+    'left right right'
+    'left right right';
     padding: 0 2rem;
   }
 }
