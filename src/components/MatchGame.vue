@@ -6,23 +6,37 @@
 
     <div class="sf-match-game--first">
       <h4>Seb</h4>
-      <h3>First</h3>
+      <h3 :style="{ background: game!.firstTeam.color }">First</h3>
       <h4>Thea</h4>
     </div>
 
     <div v-if="game" class="sf-match-game--matches">
-      <div class="sf-match-game--matches--match">
+      <div
+        class="sf-match-game--matches--match"
+        :style="{ background: matchWinnerBg }"
+      >
         <h4>Match</h4>
 
-        <MatchScore :gameId="game.id" :match="game.match" />
+        <MatchScore :gameId="game.id" :match="game.match" :editable="true" />
       </div>
-      <div class="sf-match-game--matches--rematch">
+      <div
+        class="sf-match-game--matches--rematch"
+        :style="{ background: rematchWinnerBg }"
+      >
         <h4>Rematch</h4>
 
-        <MatchScore :gameId="game.id" :match="game.rematch" />
+        <MatchScore
+          :gameId="game.id"
+          :match="game.rematch"
+          :editable="matchCompleted"
+        />
       </div>
     </div>
-    <div class="sf-match-game--second">Second</div>
+    <div class="sf-match-game--second">
+      <h4>Seb</h4>
+      <h3 :style="{ background: game!.secondTeam.color }">Second</h3>
+      <h4>Thea</h4>
+    </div>
 
     <!-- id: string;
   firstTeam: Team;
@@ -39,7 +53,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from "vue";
+import { computed, type PropType } from "vue";
 import type { Game } from "@/models/game.models";
 import MatchScore from "./MatchScore.vue";
 
@@ -54,6 +68,45 @@ export default {
       default: () => {},
     },
   },
+  setup(props, ctx) {
+    const matchCompleted = computed(() => {
+      return (
+        props.game?.match.firstTeamPoints === 10 ||
+        props.game?.match.secondTeamPoints === 10
+      );
+    });
+
+    const matchWinnerBg = computed(() => {
+      if (props.game?.match.firstTeamPoints === 10) {
+        return props.game.firstTeam.color;
+      }
+
+      if (props.game?.match.secondTeamPoints === 10) {
+        return props.game.secondTeam.color;
+      }
+
+      return "none";
+    });
+
+    const rematchWinnerBg = computed(() => {
+      if (props.game?.rematch.firstTeamPoints === 10) {
+        return props.game.firstTeam.color;
+      }
+
+      if (props.game?.rematch.secondTeamPoints === 10) {
+        return props.game.secondTeam.color;
+      }
+
+      return "none";
+    });
+
+    return {
+      matchCompleted,
+
+      matchWinnerBg,
+      rematchWinnerBg,
+    };
+  },
 };
 </script>
 
@@ -62,7 +115,8 @@ export default {
   margin-bottom: 1rem;
   text-align: center;
 
-  &--first {
+  &--first,
+  &--second {
     display: flex;
     justify-content: space-around;
 
@@ -125,10 +179,18 @@ export default {
 
     &--match {
       border-right: 1px solid var(--color-border);
+      border-radius: 8px 0px 0px 8px;
+    }
+
+    &--rematch {
+      border-radius: 0px 8px 8px 0px;
     }
   }
 
   &--second {
+    h3 {
+      border-radius: 0px 0px 8px 8px;
+    }
   }
 }
 </style>

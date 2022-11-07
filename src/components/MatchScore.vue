@@ -2,11 +2,13 @@
   <section class="sf-match-score">
     <div class="text-h4">
       <IconArrowDown
+        v-if="editable"
         class="clickable"
         @click="() => decrease('firstTeamPoints')"
       />
       {{ match.firstTeamPoints }}
       <IconArrowUp
+        v-if="editable"
         class="clickable"
         @click="() => increase('firstTeamPoints')"
       />
@@ -14,11 +16,13 @@
     <div class="text-h4">-</div>
     <div class="text-h4">
       <IconArrowDown
+        v-if="editable"
         class="clickable"
         @click="() => decrease('secondTeamPoints')"
       />
       {{ match.secondTeamPoints }}
       <IconArrowUp
+        v-if="editable"
         class="clickable"
         @click="() => increase('secondTeamPoints')"
       />
@@ -40,6 +44,10 @@ export default {
     gameId: {
       type: String,
       required: true,
+    },
+    editable: {
+      type: Boolean as PropType<Boolean>,
+      default: () => true,
     },
     first: {
       type: Boolean as PropType<Boolean>,
