@@ -2,6 +2,10 @@
   <main class="sf-match-list">
     All Teams
     {{ allTeams }}
+    All Games
+    {{ allGames }}
+
+    <MatchGame game=""></MatchGame>
   </main>
 </template>
 
@@ -10,9 +14,10 @@ import { useGame } from "@/hooks/use-game";
 
 export default {
   setup() {
-    const { allTeams } = useGame();
+    const { allTeams, allGames } = useGame();
 
     return {
+      allGames,
       allTeams,
     };
   },

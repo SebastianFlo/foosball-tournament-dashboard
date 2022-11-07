@@ -16,9 +16,9 @@ export interface Team {
   id: string;
   color: string;
   name: string;
-  wins: number;
-  losses: number;
-  points: number;
+  // wins: number;
+  // losses: number;
+  // points: number;
   players: Player[];
 }
 

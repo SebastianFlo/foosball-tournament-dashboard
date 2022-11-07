@@ -1,7 +1,8 @@
-import type { Player, Team } from "@/models/game.models";
+import type { Game, Player, Team } from "@/models/game.models";
 import { computed, ref, type Ref } from "vue";
 
 const allTeams: Ref<Team[]> = ref([]);
+const allGames: Ref<(Game | null)[]> = ref([]);
 
 const COLORS = [
   "#6F0053",
@@ -15,7 +16,35 @@ const COLORS = [
   "#CCECFA",
 ];
 
+// Assign acolor for every team (up to 8)
 const nextColor = computed(() => COLORS[allTeams.value.length]);
+
+// Dynamically generate game combinations
+const generateGames = (newTeam: Team): (Game | null)[] => {
+  const teamGames: (Game | null)[] = [];
+  if (allTeams.value.length < 2) {
+    return [];
+  }
+
+  // Create games with each other team
+  for (const team of allTeams.value) {
+    teamGames.push({
+      id: `game_${team.id}_${newTeam.id}`,
+      firstTeam: team,
+      secondTeam: newTeam,
+      match: {
+        firstTeamPoints: 0,
+        secondTeamPoints: 0,
+      },
+      rematch: {
+        firstTeamPoints: 0,
+        secondTeamPoints: 0,
+      },
+    });
+  }
+
+  return teamGames;
+};
 
 export function useGame() {
   const createTeam = async (
@@ -23,13 +52,10 @@ export function useGame() {
     firstPlayerName: Player["name"],
     secondPlayerName: Player["name"]
   ) => {
-    allTeams.value.push({
+    const newTeam: Team = {
       id: `${allTeams.value.length + 1}`,
       name: teamName,
       color: nextColor.value,
-      losses: 0,
-      wins: 0,
-      points: 0,
       players: [
         {
           id: `${allTeams.value.length + 1}_player_1`,
@@ -42,11 +68,16 @@ export function useGame() {
           avatar: "",
         },
       ],
-    });
+    };
+
+    allTeams.value.push(newTeam);
+    allGames.value = [...allGames.value, ...generateGames(newTeam)];
   };
 
   return {
     createTeam,
+
     allTeams,
+    allGames,
   };
 }

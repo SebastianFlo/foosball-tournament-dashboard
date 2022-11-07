@@ -66,12 +66,20 @@ export default {
 
     const dialog = computed(() => props.isOpen);
 
+    const resetTeam = () => {
+      teamName.value = "";
+      firstPlayerName.value = "";
+      secondPlayerName.value = "";
+    };
+
     const addTeam = async () => {
       await createTeam(
         teamName.value,
         firstPlayerName.value,
         secondPlayerName.value
       );
+
+      resetTeam();
 
       emit("close");
     };
