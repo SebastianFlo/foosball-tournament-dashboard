@@ -14,6 +14,7 @@ export interface Game {
 
 export interface Team {
   id: string;
+  color: string;
   name: string;
   wins: number;
   losses: number;
