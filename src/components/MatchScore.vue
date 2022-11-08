@@ -1,28 +1,28 @@
 <template>
   <section class="sf-match-score">
-    <div class="text-h4">
+    <div class="sf-match-score--team text-h4">
       <IconArrowDown
-        v-if="editable"
+        v-if="editable && match.firstTeamPoints > 0"
         class="clickable"
         @click="() => decrease('firstTeamPoints')"
       />
-      {{ match.firstTeamPoints }}
+      <p>{{ match.firstTeamPoints }}</p>
       <IconArrowUp
-        v-if="editable"
+        v-if="editable && match.firstTeamPoints < 10"
         class="clickable"
         @click="() => increase('firstTeamPoints')"
       />
     </div>
     <div class="text-h4">-</div>
-    <div class="text-h4">
+    <div class="sf-match-score--team text-h4">
       <IconArrowDown
-        v-if="editable"
+        v-if="editable && match.secondTeamPoints > 0"
         class="clickable"
         @click="() => decrease('secondTeamPoints')"
       />
-      {{ match.secondTeamPoints }}
+      <p>{{ match.secondTeamPoints }}</p>
       <IconArrowUp
-        v-if="editable"
+        v-if="editable && match.secondTeamPoints < 10"
         class="clickable"
         @click="() => increase('secondTeamPoints')"
       />
@@ -85,5 +85,20 @@ export default {
 .sf-match-score {
   display: flex;
   flex-direction: column;
+
+  &--team {
+    display: grid;
+    align-items: center;
+    grid-template-columns: repeat(3, 50px);
+
+    p,
+    svg {
+      justify-self: center;
+    }
+
+    p {
+      grid-column: 2;
+    }
+  }
 }
 </style>

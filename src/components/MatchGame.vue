@@ -5,9 +5,11 @@
     <!-- TEAM 2 -->
 
     <div class="sf-match-game--first">
-      <h4>Seb</h4>
-      <h3 :style="{ background: game!.firstTeam.color }">First</h3>
-      <h4>Thea</h4>
+      <h4>{{ game!.firstTeam.players[0].name }}</h4>
+      <h3 :style="{ background: game!.firstTeam.color }">
+        {{ game!.firstTeam.name }}
+      </h3>
+      <h4>{{ game!.firstTeam.players[1].name }}</h4>
     </div>
 
     <div v-if="game" class="sf-match-game--matches">
@@ -33,9 +35,11 @@
       </div>
     </div>
     <div class="sf-match-game--second">
-      <h4>Seb</h4>
-      <h3 :style="{ background: game!.secondTeam.color }">Second</h3>
-      <h4>Thea</h4>
+      <h4>{{ game!.secondTeam.players[0].name }}</h4>
+      <h3 :style="{ background: game!.secondTeam.color }">
+        {{ game!.secondTeam.name }}
+      </h3>
+      <h4>{{ game!.secondTeam.players[1].name }}</h4>
     </div>
 
     <!-- id: string;

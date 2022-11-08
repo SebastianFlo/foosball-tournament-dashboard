@@ -1,5 +1,5 @@
 <template>
-  <main class="sf-match-list">
+  <section class="sf-match-list">
     <!-- All Teams
     {{ allTeams }}
     All Games
@@ -10,7 +10,7 @@
       :game="game"
       :key="game?.id"
     ></MatchGame>
-  </main>
+  </section>
 </template>
 
 <script lang="ts">
@@ -34,8 +34,10 @@ export default {
 </script>
 
 <style lang="scss">
-.sf-scoreboard {
-  display: flex;
-  grid-area: right;
+.sf-match-list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr; // TODO: Dynamic
+  grid-gap: 2rem;
+  padding: 1rem;
 }
 </style>

@@ -5,12 +5,13 @@ const allTeams: Ref<Team[]> = ref([]);
 const allGames: Ref<(Game | null)[]> = ref([]);
 
 const COLORS = [
-  "#6F0053",
-  "#8100A1",
-  "#4f00cf",
-  "#4322D8",
+  "#4F00CF",
+  "#0ACFA2",
+  "#CF4415",
+  "#5C15CF",
+  "#CFC715",
   "#4444E1",
-  "#6678E8",
+  "#15CF3C",
   "#88A9EF",
   "#AAD0F5",
   "#CCECFA",

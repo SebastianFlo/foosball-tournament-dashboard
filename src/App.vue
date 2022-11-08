@@ -1,20 +1,23 @@
 <template>
   <header>
-    <img
-      alt="Vue logo"
-      class="logo"
-      src="@/assets/logo.svg"
-      width="125"
-      height="125"
-    />
+    <div>
+      <img
+        alt="Vue logo"
+        class="logo"
+        src="@/assets/logo.svg"
+        width="125"
+        height="125"
+      />
 
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+      <div class="wrapper">
+        <HelloWorld msg="You did it!" />
 
-      <nav>
-        <RouterLink to="/">Scores</RouterLink>
-        <RouterLink to="/leaderboard">Leaderboard</RouterLink>
-      </nav>
+        <nav>
+          <RouterLink to="/">Scores</RouterLink>
+          <RouterLink to="/leaderboard">Leaderboard</RouterLink>
+        </nav>
+      </div>
+      <AllTeams></AllTeams>
     </div>
   </header>
 
@@ -24,6 +27,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
+import AllTeams from "./components/AllTeams.vue";
 </script>
 
 <style scoped>
