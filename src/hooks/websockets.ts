@@ -2,7 +2,7 @@ import { ref } from "vue";
 
 const ws = ref<WebSocket | null>(null);
 
-const generateWS = (url: URL) => {
+const generateWS = (url: URL, cb: any) => {
   const ws = new WebSocket(url);
 
   if (!ws) {
@@ -13,9 +13,10 @@ const generateWS = (url: URL) => {
     console.log("Opened websocket");
   });
 
-  ws.addEventListener("message", ({ data }) => {
-    console.log("message", data);
-  });
+  ws.addEventListener("message", cb);
+  // ws.addEventListener("message", () => {
+  //   console.log("Message cb");
+  // });
 
   ws.addEventListener("close", () => {
     ws.close();
@@ -24,9 +25,9 @@ const generateWS = (url: URL) => {
   return ws;
 };
 
-export function useWS() {
+export function useWS(cb: any) {
   const url = new URL("ws://foosball-dash.sefhold.workers.dev/wc");
-  ws.value = ws.value || generateWS(url);
+  ws.value = ws.value || generateWS(url, cb);
 
   return {
     ws,

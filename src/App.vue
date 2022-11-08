@@ -11,8 +11,7 @@
 
       <div class="wrapper">
         <HelloWorld msg="You did it!" />
-
-        <button @click="ws?.send('CLICK')">CLICK</button>
+        <button @click="ws?.send('CHAT')">CHAT</button>
         <nav>
           <RouterLink to="/">Scores</RouterLink>
           <RouterLink to="/leaderboard">Leaderboard</RouterLink>
@@ -25,9 +24,10 @@
 </template>
 
 <script lang="ts">
-import { onMounted } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
+import { useGame } from "./hooks/use-game";
 import { useWS } from "./hooks/websockets";
 
 export default {
@@ -37,7 +37,48 @@ export default {
     RouterView,
   },
   setup() {
-    const { ws } = useWS();
+    const HeartbeatInterval = ref(0);
+    const localTimestamp = ref(0);
+
+    const messageCB = async function ({ data }: any) {
+      if (data.startsWith("HEARTBEAT")) {
+        console.log(data);
+        return;
+      }
+
+      const { action, timestamp } = JSON.parse(data);
+
+      if (!action) {
+        return;
+      }
+
+      if (action === "REFRESH") {
+        localTimestamp.value = timestamp;
+        console.log("Refreshing data", localTimestamp.value);
+
+        await fetchAllGames();
+        await fetchAllTeams();
+      }
+    };
+
+    const { fetchAllGames, fetchAllTeams } = useGame();
+    const { ws } = useWS(messageCB);
+
+    const sendHeartBeat = () => {
+      const data = "HEARTBEAT--" + localTimestamp.value;
+      console.log(data);
+      // ws.value!.send(data);
+    };
+
+    setTimeout(() => {
+      HeartbeatInterval.value = setInterval(() => {
+        sendHeartBeat();
+      }, 2000);
+    }, 1000);
+
+    onUnmounted(() => {
+      clearInterval(HeartbeatInterval.value);
+    });
 
     return {
       ws,

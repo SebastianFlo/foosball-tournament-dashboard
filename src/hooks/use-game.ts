@@ -178,6 +178,23 @@ export function useGame() {
 
       return game;
     });
+
+    await fetch(GAMES_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        games: allGames.value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const decreaseScore = async (
@@ -215,6 +232,23 @@ export function useGame() {
 
       return game;
     });
+
+    await fetch(GAMES_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        games: allGames.value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const fetchAllGames = async () => {
@@ -222,7 +256,7 @@ export function useGame() {
       .then((response) => response.json())
       .then((data) => {
         allGames.value = data.games;
-        console.log("Fetch Games: Success:", allGames.value);
+        console.log("Fetch Games: Success:");
       })
       .catch((error) => {
         console.error("Fetch Teams: Error:", error);
@@ -234,7 +268,7 @@ export function useGame() {
       .then((response) => response.json())
       .then((data) => {
         allTeams.value = data.teams;
-        console.log("Fetch Teams: Success:", allTeams.value);
+        console.log("Fetch Teams: Success:");
       })
       .catch((error) => {
         console.error("Fetch Teams: Error:", error);
