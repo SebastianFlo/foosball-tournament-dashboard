@@ -1,9 +1,6 @@
 <template>
   <section class="sf-match-list">
-    <!-- All Teams
-    {{ allTeams }}
-    All Games
-    {{ allGames }} -->
+    {{ allTeamPoints }}
 
     <MatchGame
       v-for="game of allGames"
@@ -23,11 +20,11 @@ export default {
     MatchGame,
   },
   setup() {
-    const { allTeams, allGames } = useGame();
+    const { allTeamPoints, allGames } = useGame();
 
     return {
       allGames,
-      allTeams,
+      allTeamPoints,
     };
   },
 };

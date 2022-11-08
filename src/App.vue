@@ -17,17 +17,24 @@
           <RouterLink to="/leaderboard">Leaderboard</RouterLink>
         </nav>
       </div>
-      <AllTeams></AllTeams>
     </div>
   </header>
 
   <RouterView />
 </template>
 
-<script setup lang="ts">
+<script lang="ts">
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
-import AllTeams from "./components/AllTeams.vue";
+
+export default {
+  components: {
+    HelloWorld,
+    RouterLink,
+    RouterView,
+  },
+  setup() {},
+};
 </script>
 
 <style scoped>

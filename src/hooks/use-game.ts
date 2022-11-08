@@ -20,6 +20,31 @@ const COLORS = [
 // Assign acolor for every team (up to 8)
 const nextColor = computed(() => COLORS[allTeams.value.length]);
 
+const allTeamPoints = computed(() => {
+  // if no winners, no points;
+  if (!allGames.value.find((game) => game?.winner?.id)) {
+    return [];
+  }
+
+  return allTeams.value
+    .map((team) => {
+      const wins = allGames.value.filter(
+        (game) => game?.winner?.id === team.id
+      ).length;
+      const losses = allGames.value.filter(
+        (game) => game?.loser?.id === team.id
+      ).length;
+
+      return {
+        team,
+        wins,
+        losses,
+        points: wins * 3,
+      };
+    })
+    .sort((a, b) => (a.points < b.points ? 1 : -1));
+});
+
 // Dynamically generate game combinations
 const generateGames = (newTeam: Team): (Game | null)[] => {
   const teamGames: (Game | null)[] = [];
@@ -85,6 +110,10 @@ export function useGame() {
     allGames.value = allGames.value.map((game: Game | null) => {
       if (game?.id === gameId) {
         const matchOrRematch = game.match.id === matchId ? "match" : "rematch";
+        const teamIndex =
+          teamKey === "firstTeamPoints" ? "firstTeam" : "secondTeam";
+        const otherTeamIndex =
+          teamKey === "firstTeamPoints" ? "secondTeam" : "firstTeam";
 
         const match = {
           ...game[matchOrRematch],
@@ -94,10 +123,18 @@ export function useGame() {
               : game[matchOrRematch][teamKey] + 1,
         };
 
-        return {
+        const gameScore = {
           ...game,
           [matchOrRematch]: { ...match },
         };
+
+        // We have a winner
+        if (match[teamKey] === 10) {
+          gameScore.winner = game[teamIndex];
+          gameScore.loser = game[otherTeamIndex];
+        }
+
+        return gameScore;
       }
 
       return game;
@@ -112,6 +149,8 @@ export function useGame() {
     allGames.value = allGames.value.map((game: Game | null) => {
       if (game?.id === gameId) {
         const matchOrRematch = game.match.id === matchId ? "match" : "rematch";
+        const teamIndex =
+          teamKey === "firstTeamPoints" ? "firstTeam" : "secondTeam";
 
         const match = {
           ...game[matchOrRematch],
@@ -121,10 +160,18 @@ export function useGame() {
               : game[matchOrRematch][teamKey] - 1,
         };
 
-        return {
+        const gameScore = {
           ...game,
           [matchOrRematch]: { ...match },
         };
+
+        // We no longer have a winner
+        if (game.winner && game.winner.id === game[teamIndex].id) {
+          gameScore.winner = undefined;
+          gameScore.loser = undefined;
+        }
+
+        return gameScore;
       }
 
       return game;
@@ -136,6 +183,8 @@ export function useGame() {
 
     increaseScore,
     decreaseScore,
+
+    allTeamPoints,
 
     allTeams,
     allGames,

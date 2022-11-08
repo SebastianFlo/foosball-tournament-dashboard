@@ -12,6 +12,8 @@ export interface Game {
     firstTeamPoints: number;
     secondTeamPoints: number;
   };
+  winner?: Team;
+  loser?: Team;
 }
 
 export interface Team {
