@@ -12,6 +12,7 @@
       <div class="wrapper">
         <HelloWorld msg="You did it!" />
 
+        <button @click="ws?.send('CLICK')">CLICK</button>
         <nav>
           <RouterLink to="/">Scores</RouterLink>
           <RouterLink to="/leaderboard">Leaderboard</RouterLink>
@@ -24,8 +25,10 @@
 </template>
 
 <script lang="ts">
+import { onMounted } from "vue";
 import { RouterLink, RouterView } from "vue-router";
 import HelloWorld from "./components/HelloWorld.vue";
+import { useWS } from "./hooks/websockets";
 
 export default {
   components: {
@@ -33,7 +36,13 @@ export default {
     RouterLink,
     RouterView,
   },
-  setup() {},
+  setup() {
+    const { ws } = useWS();
+
+    return {
+      ws,
+    };
+  },
 };
 </script>
 
