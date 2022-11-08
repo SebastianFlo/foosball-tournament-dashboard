@@ -10,6 +10,7 @@
 
 <script lang="ts">
 import { useGame } from "@/hooks/use-game";
+import { onMounted } from "vue";
 import MatchGame from "./MatchGame.vue";
 
 export default {
@@ -18,7 +19,11 @@ export default {
     MatchGame,
   },
   setup() {
-    const { allTeamPoints, allGames } = useGame();
+    const { allTeamPoints, allGames, fetchAllGames } = useGame();
+
+    onMounted(async () => {
+      await fetchAllGames();
+    });
 
     return {
       allGames,

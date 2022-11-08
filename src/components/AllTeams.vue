@@ -18,18 +18,23 @@
 <script lang="ts">
 import { useGame } from "@/hooks/use-game";
 import IconEdit from "@/components/icons/IconEdit.vue";
+import { onMounted } from "vue";
 
 export default {
   name: "MatchList",
   components: { IconEdit },
   setup() {
-    const { allTeams } = useGame();
+    const { allTeams, fetchAllTeams } = useGame();
 
     const editTeam = () => {};
 
+    onMounted(async () => {
+      await fetchAllTeams();
+    });
+
     return {
-      allTeams,
       editTeam,
+      allTeams,
     };
   },
 };

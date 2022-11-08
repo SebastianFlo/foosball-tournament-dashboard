@@ -4,6 +4,10 @@ import { computed, ref, type Ref } from "vue";
 const allTeams: Ref<Team[]> = ref([]);
 const allGames: Ref<(Game | null)[]> = ref([]);
 
+const API_BASE = "/api/";
+const TEAMS_API = API_BASE + "teams";
+const GAMES_API = API_BASE + "games";
+
 const COLORS = [
   "#4F00CF",
   "#0ACFA2",
@@ -99,7 +103,42 @@ export function useGame() {
     };
 
     allGames.value = [...allGames.value, ...generateGames(newTeam)];
+
+    await fetch(GAMES_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        games: allGames.value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
     allTeams.value.push(newTeam);
+
+    await fetch(TEAMS_API, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        teams: allTeams.value,
+      }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   const increaseScore = async (
@@ -178,6 +217,30 @@ export function useGame() {
     });
   };
 
+  const fetchAllGames = async () => {
+    await fetch(GAMES_API)
+      .then((response) => response.json())
+      .then((data) => {
+        allGames.value = data.games;
+        console.log("Fetch Games: Success:", allGames.value);
+      })
+      .catch((error) => {
+        console.error("Fetch Teams: Error:", error);
+      });
+  };
+
+  const fetchAllTeams = async () => {
+    await fetch(TEAMS_API)
+      .then((response) => response.json())
+      .then((data) => {
+        allTeams.value = data.teams;
+        console.log("Fetch Teams: Success:", allTeams.value);
+      })
+      .catch((error) => {
+        console.error("Fetch Teams: Error:", error);
+      });
+  };
+
   return {
     createTeam,
 
@@ -186,7 +249,9 @@ export function useGame() {
 
     allTeamPoints,
 
+    fetchAllTeams,
     allTeams,
+    fetchAllGames,
     allGames,
   };
 }
