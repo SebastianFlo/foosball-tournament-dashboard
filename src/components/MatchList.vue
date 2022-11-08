@@ -1,7 +1,5 @@
 <template>
   <section class="sf-match-list">
-    {{ allTeamPoints }}
-
     <MatchGame
       v-for="game of allGames"
       :game="game"

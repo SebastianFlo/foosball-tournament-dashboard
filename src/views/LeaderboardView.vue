@@ -18,7 +18,7 @@
         v-for="(bottomTeam, i) of allTeamPoints"
         :key="bottomTeam.team.id"
       >
-        <div v-if="i >= 2">
+        <div v-if="i > 2">
           {{ i + 4 }}
           {{ bottomTeam.points }}
           {{ bottomTeam.team.name }}
