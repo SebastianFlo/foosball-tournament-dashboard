@@ -35,7 +35,7 @@ import type { PropType } from "vue";
 import type { Game } from "@/models/game.models";
 import IconArrowUp from "./icons/IconArrowUp.vue";
 import IconArrowDown from "./icons/IconArrowDown.vue";
-import { useGame } from "@/hooks/use-game";
+import { useFirebase } from "@/hooks/use-firebase";
 
 export default {
   name: "MatchScore",
@@ -59,7 +59,7 @@ export default {
     },
   },
   setup(props) {
-    const { increaseScore, decreaseScore } = useGame();
+    const { increaseScore, decreaseScore } = useFirebase();
 
     const increase = async (
       teamKey: "firstTeamPoints" | "secondTeamPoints"

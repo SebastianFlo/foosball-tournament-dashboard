@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { useGame } from "@/hooks/use-game";
+import { useFirebase } from "@/hooks/use-firebase";
 import { computed, ref, type PropType } from "vue";
 
 export default {
@@ -58,7 +58,7 @@ export default {
     },
   },
   setup(props, { emit }) {
-    const { createTeam } = useGame();
+    const { createTeam } = useFirebase();
 
     const teamName = ref("");
     const firstPlayerName = ref("");

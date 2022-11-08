@@ -16,21 +16,16 @@
 </template>
 
 <script lang="ts">
-import { useGame } from "@/hooks/use-game";
 import IconEdit from "@/components/icons/IconEdit.vue";
-import { onMounted } from "vue";
+import { useFirebase } from "@/hooks/use-firebase";
 
 export default {
   name: "MatchList",
   components: { IconEdit },
   setup() {
-    const { allTeams, fetchAllTeams } = useGame();
+    const { allTeams } = useFirebase();
 
     const editTeam = () => {};
-
-    onMounted(async () => {
-      await fetchAllTeams();
-    });
 
     return {
       editTeam,

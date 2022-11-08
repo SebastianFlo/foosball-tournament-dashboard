@@ -29,11 +29,11 @@
 </template>
 
 <script lang="ts">
-import { useGame } from "@/hooks/use-game";
+import { useFirebase } from "@/hooks/use-firebase";
 
 export default {
   setup(props, ctx) {
-    const { allTeamPoints } = useGame();
+    const { allTeamPoints } = useFirebase();
 
     return {
       allTeamPoints,
