@@ -8,7 +8,9 @@
       />
       <p>{{ match.firstTeamPoints }}</p>
       <IconArrowUp
-        v-if="editable && match.firstTeamPoints < 10"
+        v-if="
+          editable && match.firstTeamPoints < 10 && match.secondTeamPoints < 10
+        "
         class="clickable"
         @click="() => increase('firstTeamPoints')"
       />
@@ -22,7 +24,9 @@
       />
       <p>{{ match.secondTeamPoints }}</p>
       <IconArrowUp
-        v-if="editable && match.secondTeamPoints < 10"
+        v-if="
+          editable && match.secondTeamPoints < 10 && match.firstTeamPoints < 10
+        "
         class="clickable"
         @click="() => increase('secondTeamPoints')"
       />
@@ -85,6 +89,7 @@ export default {
 .sf-match-score {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   &--team {
     display: grid;

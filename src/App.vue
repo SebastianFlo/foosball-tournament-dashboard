@@ -1,48 +1,66 @@
 <template>
-  <header>
+  <header class="base-pad">
     <div>
-      <img
-        alt="Vue logo"
-        class="logo"
-        src="@/assets/logo.svg"
-        width="125"
-        height="125"
-      />
-
       <div class="wrapper">
-        <HelloWorld msg="You did it!" />
         <nav>
-          <RouterLink to="/">Scores</RouterLink>
-          <RouterLink to="/leaderboard">Leaderboard</RouterLink>
+          <RouterLink :to="'/?role=' + role" :query="{ role: role }"
+            >Scores</RouterLink
+          >
+          <RouterLink :to="'/leaderboard?role=' + role" :query="{ role: role }"
+            >Leaderboard</RouterLink
+          >
         </nav>
+        <HelloWorld msg="Foosball dashboard!" />
       </div>
     </div>
   </header>
+
+  <section class="wrapper-teams base-pad">
+    <AllTeams :expanded="route.path !== 'leaderboard'"></AllTeams>
+  </section>
 
   <RouterView />
 </template>
 
 <script lang="ts">
-import { RouterLink, RouterView } from "vue-router";
-import HelloWorld from "./components/HelloWorld.vue";
+import { RouterLink, RouterView, useRoute } from "vue-router";
+import HelloWorld from "@/components/HelloWorld.vue";
+import AllTeams from "@/components/AllTeams.vue";
+import { usePermissions } from "@/hooks/use-permissions";
 
 export default {
   components: {
     HelloWorld,
     RouterLink,
     RouterView,
+    AllTeams,
   },
   setup() {
-    return {};
+    const route = useRoute();
+    const { role } = usePermissions();
+
+    return {
+      route,
+      role,
+    };
   },
 };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 header {
   line-height: 1.5;
   max-height: 100vh;
-  grid-area: left;
+  grid-area: header;
+  background: var(--sg-green);
+  z-index: 2;
+}
+
+.wrapper-teams {
+  grid-area: team;
+  background: var(--sg-green);
+  min-height: 100%;
+  height: fit-content;
 }
 
 .logo {
@@ -54,32 +72,51 @@ nav {
   width: 100%;
   font-size: 12px;
   text-align: center;
-  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
 }
 
 nav a.router-link-exact-active {
   color: var(--color-text);
+  text-transform: uppercase;
+  background-color: var(--sg-green);
+  height: 50px;
+  min-width: 150px;
+  color: white;
+  text-align: center;
+  line-height: 50px;
+  font-style: italic;
+  letter-spacing: 5px;
 }
 
 nav a.router-link-exact-active:hover {
-  background-color: transparent;
+  background-color: var(--sg-green);
 }
 
 nav a {
   display: inline-block;
+  color: var(--color-text);
+  text-transform: uppercase;
+  background-color: var(--vt-c-white);
+  height: 50px;
+  min-width: 150px;
+  color: var(--sg-green);
+  text-align: center;
+  line-height: 50px;
+  font-style: italic;
+  letter-spacing: 5px;
   padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
 
-nav a:first-of-type {
-  border: 0;
+  &:hover {
+    background-color: var(--sg-green-dark);
+  }
 }
 
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+    align-self: flex-start;
+    height: 100%;
   }
 
   .logo {

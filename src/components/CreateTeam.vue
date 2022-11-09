@@ -1,9 +1,15 @@
 <template>
   <v-dialog v-model="dialog" width="500" @click:outside="$emit('close')">
     <v-card class="rounded-xl pa-6">
-      <v-form>
+      <v-form @submit="addTeam" v-model="valid">
         <v-card-title class="text-h5 grey lighten-2">
-          <v-text-field v-model="teamName" label="Team Name"></v-text-field>
+          <v-text-field
+            variant="outlined"
+            v-model="teamName"
+            label="Team Name"
+            :rules="requiredRules"
+            required
+          ></v-text-field>
         </v-card-title>
 
         <v-divider></v-divider>
@@ -11,20 +17,26 @@
         <v-container>
           <v-row>
             <v-col>
-              TODO: Image
+              <!-- TODO: Image -->
               <v-text-field
+                variant="underlined"
                 v-model="firstPlayerName"
                 label="First Player"
+                :rules="requiredRules"
+                required
               ></v-text-field>
             </v-col>
 
             <v-divider class="mx-4" vertical></v-divider>
 
             <v-col>
-              TODO: Image
+              <!-- TODO: Image -->
               <v-text-field
+                variant="underlined"
                 v-model="secondPlayerName"
                 label="Second Player"
+                :rules="requiredRules"
+                required
               ></v-text-field>
             </v-col>
           </v-row>
@@ -34,7 +46,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" text @click="addTeam"> Add team </v-btn>
+          <v-btn type="submit"> Add team </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -43,7 +55,9 @@
 
 <script lang="ts">
 import { useFirebase } from "@/hooks/use-firebase";
+import router from "@/router";
 import { computed, ref, type PropType } from "vue";
+import { useRouter } from "vue-router";
 
 export default {
   data() {
@@ -59,10 +73,14 @@ export default {
   },
   setup(props, { emit }) {
     const { createTeam } = useFirebase();
+    const router = useRouter();
 
+    const valid = ref(false);
     const teamName = ref("");
     const firstPlayerName = ref("");
     const secondPlayerName = ref("");
+
+    const requiredRules = [(v) => !!v || "Field is required"];
 
     const dialog = computed(() => props.isOpen);
 
@@ -73,6 +91,12 @@ export default {
     };
 
     const addTeam = async () => {
+      if (!valid.value) {
+        return;
+      }
+
+      const role = teamName.value;
+
       await createTeam(
         teamName.value,
         firstPlayerName.value,
@@ -81,6 +105,7 @@ export default {
 
       resetTeam();
 
+      router.push({ path: "/", query: { role } });
       emit("close");
     };
 
@@ -91,9 +116,16 @@ export default {
 
       addTeam,
       dialog,
+
+      valid,
+      requiredRules,
     };
   },
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.v-card {
+  color: #000;
+}
+</style>

@@ -1,16 +1,41 @@
 @import './base.css';
 
+
+body {
+  display: flex;
+  place-items: center;
+  min-height: 100vh;
+  color: var(--color-text);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 15px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #app {
   margin: 0 auto;
-  padding: 2rem;
-
   font-weight: normal;
+  display: grid;
+  grid-template-columns: fit-content(25%) 1fr;
+  grid-template-rows: 25% 100px 1fr;
+  grid-template-areas:
+  'header right'
+  'team right'
+  'team .';
+  background-color: var(--vt-c-white);
+  width: 100%;
+  height: 100vh;
 }
+
 
 a,
 .green {
   text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
+  color: var(--sg-green);
   transition: 0.4s;
 }
 
@@ -20,22 +45,15 @@ a,
   }
 }
 
-@media (min-width: 1024px) {
-  body {
-    display: flex;
-    place-items: center;
-  }
-
-  #app {
-    display: grid;
-    grid-template-areas:
-    'left right right'
-    'left right right'
-    'left right right';
-    padding: 0 2rem;
-  }
-}
-
 .clickable {
   cursor: pointer;
+}
+
+a,
+button {
+  border-radius: 8px;
+}
+
+.base-pad {
+  padding: 2rem;
 }

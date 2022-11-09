@@ -29,9 +29,12 @@ export default {
 
 <style lang="scss">
 .sf-match-list {
+  width: 100%;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr; // TODO: Dynamic
-  grid-gap: 2rem;
-  padding: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-gap: 3rem;
+  padding: 3rem;
+  margin-top: 10rem;
+  height: fit-content;
 }
 </style>

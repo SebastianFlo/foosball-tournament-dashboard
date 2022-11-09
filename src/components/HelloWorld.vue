@@ -1,49 +1,34 @@
 <template>
   <div class="greetings">
-    <h1 class="green">{{ msg }}</h1>
-    <h3>
-      You’ve successfully created a project with
-      <a href="https://vitejs.dev/" target="_blank" rel="noopener">Vite</a> +
-      <a href="https://vuejs.org/" target="_blank" rel="noopener">Vue 3</a>.
-      What's next?
-    </h3>
-
-    <v-btn color="primary" dark @click.stop="dialog = true">
-      Create Team
-    </v-btn>
-
-    <div class="text-center">
-      <CreateTeam :is-open="dialog" @close="() => (dialog = false)" />
-    </div>
+    <SigLogo />
+    <h1>{{ msg }}</h1>
   </div>
 </template>
 
 <script lang="ts">
-import { ref } from "vue";
-import CreateTeam from "./CreateTeam.vue";
+import SigLogo from "./icons/SigLogo.vue";
 
 export default {
   components: {
-    CreateTeam,
+    SigLogo,
   },
   props: {
     msg: String,
   },
-  setup(props, ctx) {
-    const dialog = ref(false);
-
-    return {
-      dialog,
-    };
-  },
+  setup(props, ctx) {},
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.greetings {
+  max-width: 300px;
+}
+
 h1 {
-  font-weight: 500;
-  font-size: 2.6rem;
-  top: -10px;
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 28px;
+  text-transform: uppercase;
 }
 
 h3 {
