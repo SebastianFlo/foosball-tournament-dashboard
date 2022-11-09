@@ -1,23 +1,27 @@
 <template>
-  <header class="base-pad">
-    <div>
-      <div class="wrapper">
-        <nav>
-          <RouterLink :to="'/?role=' + role" :query="{ role: role }"
-            >Scores</RouterLink
-          >
-          <RouterLink :to="'/leaderboard?role=' + role" :query="{ role: role }"
-            >Leaderboard</RouterLink
-          >
-        </nav>
-        <HelloWorld msg="Foosball dashboard!" />
+  <div>
+    <header class="base-pad">
+      <div class="sidebar">
+        <div class="wrapper">
+          <nav>
+            <RouterLink :to="'/?role=' + role" :query="{ role: role }"
+              >Scores</RouterLink
+            >
+            <RouterLink
+              :to="'/leaderboard?role=' + role"
+              :query="{ role: role }"
+              >Leaderboard</RouterLink
+            >
+          </nav>
+          <HelloWorld msg="Foosball dashboard!" />
+        </div>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <section class="wrapper-teams base-pad">
-    <AllTeams :expanded="route.path !== 'leaderboard'"></AllTeams>
-  </section>
+    <section class="wrapper-teams base-pad">
+      <AllTeams :expanded="route.path !== 'leaderboard'"></AllTeams>
+    </section>
+  </div>
 
   <RouterView />
 </template>
@@ -54,6 +58,10 @@ header {
   grid-area: header;
   background: var(--sg-green);
   z-index: 2;
+}
+
+.sidebar {
+  width: min-content;
 }
 
 .wrapper-teams {
@@ -105,7 +113,7 @@ nav a {
   line-height: 50px;
   font-style: italic;
   letter-spacing: 5px;
-  padding: 0 1rem;
+  padding: 0 2rem;
 
   &:hover {
     background-color: var(--sg-green-dark);
@@ -116,7 +124,7 @@ nav a {
   header {
     display: flex;
     align-self: flex-start;
-    height: 100%;
+    // height: 100%;
   }
 
   .logo {

@@ -53,10 +53,12 @@ onSnapshot(docRef, (snap) => {
   allTeams.value = snap.data().teams;
 });
 
-const allTeamPoints = computed(() => {
+const allTeamPoints = ref<any[]>([]);
+
+const calculateTeamPoints = (games: Game[]) => {
   // if no winners, no points;
   if (
-    !allGames.value.find((game) => {
+    !games.find((game) => {
       return (
         game?.match.firstTeamPoints === 10 ||
         game?.match.secondTeamPoints === 10 ||
@@ -81,7 +83,7 @@ const allTeamPoints = computed(() => {
           game.match.firstTeamPoints === 10 &&
           game.firstTeam.id === team.id
         ) {
-          return acc + 1;
+          acc = acc + 1;
         }
 
         // is team is second and match finished
@@ -89,7 +91,7 @@ const allTeamPoints = computed(() => {
           game.match.secondTeamPoints === 10 &&
           game.secondTeam.id === team.id
         ) {
-          return acc + 1;
+          acc = acc + 1;
         }
 
         // is team is first and rematch finished
@@ -97,7 +99,7 @@ const allTeamPoints = computed(() => {
           game.rematch.firstTeamPoints === 10 &&
           game.firstTeam.id === team.id
         ) {
-          return acc + 1;
+          acc = acc + 1;
         }
 
         // is team is second and rematch finished
@@ -105,9 +107,8 @@ const allTeamPoints = computed(() => {
           game.rematch.secondTeamPoints === 10 &&
           game.secondTeam.id === team.id
         ) {
-          return acc + 1;
+          acc = acc + 1;
         }
-
         return acc;
       }, 0);
 
@@ -171,9 +172,11 @@ const allTeamPoints = computed(() => {
       };
     })
     .sort((a, b) => (a.points < b.points ? 1 : -1));
-});
+};
 
 export function useFirebase() {
+  allTeamPoints.value = calculateTeamPoints(allGames.value);
+
   const generateGames = (newTeam: Team): Game[] => {
     const teamGames: Game[] = [];
     if (allTeams.value.length < 1) {
@@ -256,20 +259,13 @@ export function useFirebase() {
           ...game,
           [matchOrRematch]: { ...match },
         };
-
-        // // We have a winner
-        // if (match[teamKey] === 10) {
-        //   gameScore.winner = game[teamIndex];
-        //   gameScore.loser = game[otherTeamIndex];
-        // }
-
-        // return gameScore;
       }
 
       return game;
     });
 
     allGames.value = newGames;
+    allTeamPoints.value = calculateTeamPoints(allGames.value);
 
     await updateGameandTeams({
       teams: allTeams.value,
@@ -314,6 +310,7 @@ export function useFirebase() {
     });
 
     allGames.value = newGames;
+    allTeamPoints.value = calculateTeamPoints(allGames.value);
 
     await updateGameandTeams({
       teams: allTeams.value,

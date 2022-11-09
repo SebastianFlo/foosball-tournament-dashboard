@@ -1,6 +1,5 @@
 <template>
   <div class="sf-leaderboard">
-    {{ allGames }}
     <h1 v-if="!allTeamPoints.length">
       We need some winners to show the leaderboard
     </h1>
@@ -58,8 +57,9 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
   gap: 1rem;
-  grid-area: right;
+  // grid-area: right;
 
   h1 {
     font-size: 28px;

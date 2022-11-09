@@ -19,16 +19,17 @@ body {
 #app {
   margin: 0 auto;
   font-weight: normal;
-  display: grid;
+  /* display: grid;
   grid-template-columns: fit-content(25%) 1fr;
   grid-template-rows: 25% 100px 1fr;
   grid-template-areas:
   'header right'
   'team right'
-  'team .';
+  'team .'; */
+  display: flex;
   background-color: var(--vt-c-white);
   width: 100%;
-  height: 100vh;
+  height: 100%;
 }
 
 

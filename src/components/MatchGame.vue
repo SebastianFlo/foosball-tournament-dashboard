@@ -136,6 +136,7 @@ export default {
   color: var(--vt-c-black);
   white-space: nowrap;
   max-width: 400px;
+  margin: 0 auto;
 
   &--first,
   &--second {
@@ -167,6 +168,7 @@ export default {
     border: 1px solid var(--color-border);
     border-radius: 8px;
     min-width: 300px;
+    width: fit-content;
     height: 200px;
     display: flex;
     padding: 0.5rem;
