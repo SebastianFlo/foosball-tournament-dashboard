@@ -15,8 +15,16 @@
             {{ i + 1 }}
           </h2>
 
-          <!-- <p>{{ topTeam.wins }} / {{ topTeam.losses }}</p> -->
-          <v-chip color="white" variant="outlined">{{ topTeam.points }}</v-chip>
+          <v-chip label class="sf-leaderboard--top--wins" color="white">
+            {{ topTeam.wins }} / {{ topTeam.losses }}
+          </v-chip>
+
+          <v-chip
+            class="sf-leaderboard--top--points"
+            color="white"
+            variant="outlined"
+            >{{ topTeam.points }}</v-chip
+          >
 
           <h3>{{ topTeam.team.name }}</h3>
         </v-card>
@@ -30,9 +38,19 @@
         :key="bottomTeam.team.id"
       >
         <v-card :color="bottomTeam.team.color" v-if="i > 2">
-          {{ i + 4 }}
-          {{ bottomTeam.points }}
-          {{ bottomTeam.team.name }}
+          <h2>
+            {{ i + 1 }}
+          </h2>
+
+          <h3>{{ bottomTeam.team.name }}</h3>
+
+          <v-chip label color="white">
+            {{ bottomTeam.wins }} / {{ bottomTeam.losses }}
+          </v-chip>
+
+          <v-chip color="white" variant="outlined">{{
+            bottomTeam.points
+          }}</v-chip>
         </v-card>
       </template>
     </div>
@@ -84,10 +102,10 @@ export default {
       display: grid;
       grid-template-areas:
         "place"
-        "wins"
         "name"
+        "wins"
         "points";
-      grid-template-rows: 1fr 20px 50px 20px;
+      grid-template-rows: 1fr 50px 60px 40px;
       align-content: end;
 
       h2 {
@@ -107,19 +125,18 @@ export default {
         align-self: flex-end;
       }
 
-      p {
-        color: var(--vt-c-white);
-        grid-area: wins;
-        padding: 0 1rem;
-        width: 100%;
+      .sf-leaderboard--top--wins,
+      .sf-leaderboard--top--points {
+        margin: 5px;
+        justify-content: center;
+        align-self: flex-end;
       }
 
-      .v-chip {
-        margin: 5px;
-        // max-width: 50px;
+      .sf-leaderboard--top--wins {
+        grid-area: wins;
+      }
+      .sf-leaderboard--top--points {
         grid-area: points;
-        text-align: center;
-        align-self: flex-end;
       }
     }
   }
@@ -133,11 +150,26 @@ export default {
     > div {
       border: 1px solid var(--color-border);
       border-radius: 8px;
-      height: 100px;
+      height: 50px;
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
+      justify-content: space-between;
+
+      h2 {
+        color: var(--vt-c-white);
+        padding: 0 1rem;
+        font-size: 2rem;
+      }
+
+      h3 {
+        color: var(--vt-c-white);
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        grid-area: name;
+      }
+
+      .v-chip {
+      }
     }
   }
 }

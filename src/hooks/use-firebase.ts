@@ -21,15 +21,15 @@ const firebaseConfig = {
 };
 
 const COLORS = [
-  "##ff869eb3",
-  "#f5aa2b",
-  "#4f01cf",
-  "#90e4b6",
-  "#4444E1",
-  "#9869e4",
-  "#ffe1ee",
-  "#ffedc4",
-  "#CCECFA",
+  "#ff869eb3",
+  "#f5aa2bb3",
+  "#4f01cfb3",
+  "#90e4b6b3",
+  "#4444E1b3",
+  "#9869e4b3",
+  "#ffe1eeb3",
+  "#ffedc4b3",
+  "#CCECFAb3",
 ];
 
 const nextColor = computed(() => COLORS[allTeams.value.length]);
