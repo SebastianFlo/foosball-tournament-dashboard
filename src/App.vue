@@ -55,17 +55,19 @@ export default {
 header {
   line-height: 1.5;
   max-height: 100vh;
-  grid-area: header;
   background: var(--sg-green);
   z-index: 2;
 }
 
 .sidebar {
   width: min-content;
+
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
 }
 
 .wrapper-teams {
-  grid-area: team;
   background: var(--sg-green);
   min-height: 100%;
   height: fit-content;
@@ -82,6 +84,11 @@ nav {
   text-align: center;
   display: flex;
   gap: 1rem;
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    margin-bottom: 2rem;
+  }
 }
 
 nav a.router-link-exact-active {
@@ -117,6 +124,10 @@ nav a {
 
   &:hover {
     background-color: var(--sg-green-dark);
+  }
+
+  @media (max-width: 1024px) {
+    width: 100%;
   }
 }
 

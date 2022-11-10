@@ -41,5 +41,9 @@ export default {
   padding: 3rem;
   margin-top: 10rem;
   height: fit-content;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
 }
 </style>

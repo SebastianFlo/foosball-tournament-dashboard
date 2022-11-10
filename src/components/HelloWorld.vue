@@ -22,6 +22,11 @@ export default {
 <style lang="scss" scoped>
 .greetings {
   max-width: 300px;
+
+  @media (max-width: 1024px) {
+    max-width: 100%;
+    text-align: center;
+  }
 }
 
 h1 {
@@ -29,6 +34,10 @@ h1 {
   font-weight: 900;
   line-height: 28px;
   text-transform: uppercase;
+
+  @media (max-width: 1024px) {
+    display: none;
+  }
 }
 
 h3 {

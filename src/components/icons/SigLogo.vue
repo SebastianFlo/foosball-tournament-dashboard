@@ -35,5 +35,9 @@
 <style lang="scss" scoped>
 svg {
   fill: #000;
+
+  @media (max-width: 1024px) {
+    height: 50px;
+  }
 }
 </style>

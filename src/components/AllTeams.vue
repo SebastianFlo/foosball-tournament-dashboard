@@ -6,28 +6,40 @@
       <IconFootball />
     </v-btn>
 
-    <v-card
-      class="sf-all-teams--team rounded-lg clickable"
-      :color="canSee([team.name]) ? team.color : '#d3d3d3'"
-      @click="() => toggleShow([team.name])"
-      v-for="team of allTeams"
-      :key="team?.id"
+    <v-btn
+      v-if="smallScreen"
+      variant="tonal"
+      color="white"
+      elevation="2"
+      outlined
+      @click="toggleTeams"
+      >{{ showTeams ? "Hide Teams ⬆" : "Show Teams ⬇" }}</v-btn
     >
-      <h3>
-        {{ team.name }}
 
-        <IconEdit
-          v-if="canAccess([team.name])"
-          class="clickable"
-          @click.prevent="editTeam"
-        />
-      </h3>
+    <template v-if="showTeams">
+      <v-card
+        class="sf-all-teams--team rounded-lg clickable"
+        :color="canSee([team.name]) ? team.color : '#d3d3d3'"
+        @click="() => toggleShow([team.name])"
+        v-for="team of allTeams"
+        :key="team?.id"
+      >
+        <h3>
+          {{ team.name }}
 
-      <div>
-        <h4>{{ team.players[0].name }}</h4>
-        <h4>{{ team.players[1].name }}</h4>
-      </div>
-    </v-card>
+          <IconEdit
+            v-if="canAccess([team.name])"
+            class="clickable"
+            @click.prevent="editTeam"
+          />
+        </h3>
+
+        <div>
+          <h4>{{ team.players[0].name }}</h4>
+          <h4>{{ team.players[1].name }}</h4>
+        </div>
+      </v-card>
+    </template>
 
     <div class="text-center">
       <CreateTeam :is-open="dialog" @close="() => (dialog = false)" />
@@ -40,7 +52,7 @@ import IconEdit from "@/components/icons/IconEdit.vue";
 import IconFootball from "@/components/icons/IconFootball.vue";
 import { useFirebase } from "@/hooks/use-firebase";
 import { usePermissions } from "@/hooks/use-permissions";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import CreateTeam from "./CreateTeam.vue";
 
 export default {
@@ -53,7 +65,18 @@ export default {
     const editTeam = () => {};
     const dialog = ref(false);
 
+    const smallScreen = computed(() => window.innerWidth < 1024);
+    const showTeams = ref(!smallScreen.value);
+
+    const toggleTeams = () => {
+      showTeams.value = !showTeams.value;
+    };
+
     return {
+      smallScreen,
+      toggleTeams,
+      showTeams,
+
       editTeam,
       allTeams,
       dialog,
@@ -75,6 +98,10 @@ export default {
   position: relative;
   margin-top: 150px;
   gap: 2rem;
+
+  @media (max-width: 1024px) {
+    margin-top: 50px;
+  }
 
   button.sf-all-teams--create {
     border-radius: 8px;

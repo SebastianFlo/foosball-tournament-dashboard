@@ -12,7 +12,6 @@ import MatchList from "@/components/MatchList.vue";
 .sf-scoreboard {
   width: 100%;
   display: flex;
-  grid-area: right;
   justify-self: center;
   height: 100%;
   overflow: scroll;
