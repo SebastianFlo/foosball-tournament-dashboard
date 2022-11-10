@@ -7,8 +7,9 @@
     </v-btn>
 
     <v-card
-      :style="{ background: team.color }"
-      class="sf-all-teams--team rounded-lg"
+      class="sf-all-teams--team rounded-lg clickable"
+      :color="canSee([team.name]) ? team.color : '#d3d3d3'"
+      @click="() => toggleShow([team.name])"
       v-for="team of allTeams"
       :key="team?.id"
     >
@@ -18,7 +19,7 @@
         <IconEdit
           v-if="canAccess([team.name])"
           class="clickable"
-          @click="editTeam"
+          @click.prevent="editTeam"
         />
       </h3>
 
@@ -47,7 +48,7 @@ export default {
   components: { IconEdit, IconFootball, CreateTeam },
   setup() {
     const { allTeams } = useFirebase();
-    const { canAccess } = usePermissions();
+    const { canAccess, toggleShow, canSee } = usePermissions();
 
     const editTeam = () => {};
     const dialog = ref(false);
@@ -56,7 +57,10 @@ export default {
       editTeam,
       allTeams,
       dialog,
+
       canAccess,
+      canSee,
+      toggleShow,
     };
   },
 };
@@ -70,29 +74,26 @@ export default {
   align-items: center;
   position: relative;
   margin-top: 150px;
+  gap: 2rem;
 
   button.sf-all-teams--create {
     border-radius: 8px;
-    width: 300px;
-    display: inline-block;
     text-transform: uppercase;
-    height: 120px;
-    color: var(--sg-green);
+    height: 40px;
+    color: var(--vt-c-black);
     text-align: center;
     font-style: italic;
     letter-spacing: 5px;
-    padding: 0 1rem;
-    background: transparent;
+    background: var(--vt-c-white);
     border: 2px solid var(--sg-green);
 
     .v-btn__content {
       display: flex;
-      flex-direction: column;
-      color: var(--vt-c-white);
+      justify-content: space-between;
 
       svg {
-        width: 50px;
-        fill: white;
+        width: 25px;
+        fill: black;
       }
     }
   }

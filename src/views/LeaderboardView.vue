@@ -15,6 +15,7 @@
             {{ i + 1 }}
           </h2>
 
+          <!-- <p>{{ topTeam.wins }} / {{ topTeam.losses }}</p> -->
           <v-chip color="white" variant="outlined">{{ topTeam.points }}</v-chip>
 
           <h3>{{ topTeam.team.name }}</h3>
@@ -83,9 +84,10 @@ export default {
       display: grid;
       grid-template-areas:
         "place"
-        "points"
-        "name";
-      grid-template-rows: 1fr 100px 50px;
+        "wins"
+        "name"
+        "points";
+      grid-template-rows: 1fr 20px 50px 20px;
       align-content: end;
 
       h2 {
@@ -105,11 +107,18 @@ export default {
         align-self: flex-end;
       }
 
+      p {
+        color: var(--vt-c-white);
+        grid-area: wins;
+        padding: 0 1rem;
+        width: 100%;
+      }
+
       .v-chip {
         margin: 5px;
-        max-width: 50px;
-        width: fit-content;
+        // max-width: 50px;
         grid-area: points;
+        text-align: center;
         align-self: flex-end;
       }
     }

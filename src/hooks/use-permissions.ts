@@ -1,16 +1,24 @@
 import { ref, watch } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 export function usePermissions() {
   const route = useRoute();
+  const router = useRouter();
   const role = ref("");
+  const show = ref<string[]>([]);
   // check access to feature if admin or team
 
   watch(
     () => route.query,
     (query) => {
       console.log("role", query.role);
-      role.value = query.role?.toString() || "";
+      console.log("show", query.show);
+      role.value = query.role?.toString().toLowerCase() || "";
+
+      show.value =
+        (typeof query.show === "string"
+          ? [query.show?.toString().toLowerCase()]
+          : query.show?.map((showFeature) => showFeature!.toLowerCase())) || [];
     },
     {
       immediate: true,
@@ -21,14 +29,71 @@ export function usePermissions() {
   const canAccess = (features: string[]) => {
     return (
       role.value === "admin" ||
-      !!features.find(
-        (feature) => role.value.toLowerCase() === feature.toLowerCase()
+      !!features.find((feature) => role.value === feature.toLowerCase())
+    );
+  };
+
+  const canSee = (features: string[]) => {
+    // if no specifications, show all
+    if (!show.value.length) {
+      return true;
+    }
+
+    return !!features.find((feature) =>
+      show.value.find(
+        (shownFeature) => shownFeature.toLowerCase() === feature.toLowerCase()
       )
     );
+  };
+
+  const toggleShow = (features: string[]) => {
+    // Check if feature already shows
+    const existingShowQuery = ref(show.value);
+    const normalizedFeatures = ref(
+      features.map((feature) => feature.toLowerCase())
+    );
+    if (existingShowQuery.value.length === 0 && features.length > 0) {
+      router.push({
+        path: "/",
+        query: {
+          ...route.query,
+          show: features,
+        },
+      });
+
+      return;
+    }
+
+    const newShowFeatures = existingShowQuery.value.reduce(
+      (acc: string[], curr) => {
+        // loop through new features
+        for (const newFeature of normalizedFeatures.value) {
+          // if it exists already remove it, if not, add it;
+          if (curr === newFeature) {
+            acc = acc.filter((feature) => feature !== newFeature);
+          } else {
+            acc.push(newFeature);
+          }
+        }
+
+        return acc;
+      },
+      existingShowQuery.value
+    );
+
+    router.push({
+      path: "/",
+      query: {
+        ...route.query,
+        show: newShowFeatures,
+      },
+    });
   };
 
   return {
     role,
     canAccess,
+    canSee,
+    toggleShow,
   };
 }

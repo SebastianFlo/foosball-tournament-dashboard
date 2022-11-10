@@ -8,7 +8,7 @@ import {
   onSnapshot,
   updateDoc,
 } from "firebase/firestore";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,7 +21,7 @@ const firebaseConfig = {
 };
 
 const COLORS = [
-  "#ff869e",
+  "##ff869eb3",
   "#f5aa2b",
   "#4f01cf",
   "#90e4b6",
@@ -153,17 +153,6 @@ const calculateTeamPoints = (games: Game[]) => {
         return acc;
       }, 0);
 
-      // const wins = allGames.value.filter(
-      //   (game) => {
-      //     game.firstTeam.id === team.id;
-      //     game?.winner?.id === team.id
-      //   }
-      // ).length;
-
-      // const losses = allGames.value.filter(
-      //   (game) => game?.loser?.id === team.id
-      // ).length;
-
       return {
         team,
         wins,
@@ -176,6 +165,16 @@ const calculateTeamPoints = (games: Game[]) => {
 
 export function useFirebase() {
   allTeamPoints.value = calculateTeamPoints(allGames.value);
+
+  watch(
+    allGames,
+    (games) => {
+      allTeamPoints.value = calculateTeamPoints(games);
+    },
+    {
+      immediate: true,
+    }
+  );
 
   const generateGames = (newTeam: Team): Game[] => {
     const teamGames: Game[] = [];
@@ -242,10 +241,6 @@ export function useFirebase() {
     const newGames = allGames.value.map((game: Game) => {
       if (game?.id === gameId) {
         const matchOrRematch = game.match.id === matchId ? "match" : "rematch";
-        // const teamIndex =
-        //   teamKey === "firstTeamPoints" ? "firstTeam" : "secondTeam";
-        // const otherTeamIndex =
-        //   teamKey === "firstTeamPoints" ? "secondTeam" : "firstTeam";
 
         const match = {
           ...game[matchOrRematch],
@@ -281,8 +276,6 @@ export function useFirebase() {
     const newGames = allGames.value.map((game: Game) => {
       if (game?.id === gameId) {
         const matchOrRematch = game.match.id === matchId ? "match" : "rematch";
-        const teamIndex =
-          teamKey === "firstTeamPoints" ? "firstTeam" : "secondTeam";
 
         const match = {
           ...game[matchOrRematch],
@@ -296,14 +289,6 @@ export function useFirebase() {
           ...game,
           [matchOrRematch]: { ...match },
         };
-
-        // We no longer have a winner
-        // if (game.winner && game.winner.id === game[teamIndex].id) {
-        //   delete gameScore.winner;
-        //   delete gameScore.loser;
-        // }
-
-        // return gameScore;
       }
 
       return game;

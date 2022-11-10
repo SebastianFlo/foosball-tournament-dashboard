@@ -1,15 +1,18 @@
 <template>
-  <section class="sf-match-list">
-    <MatchGame
-      v-for="game of allGames"
-      :game="game"
-      :key="game?.id"
-    ></MatchGame>
-  </section>
+  <TransitionGroup tag="section" name="fade" class="sf-match-list">
+    <template v-for="game of allGames">
+      <MatchGame
+        v-if="canSee([game.firstTeam.name, game.secondTeam.name])"
+        :game="game"
+        :key="game?.id"
+      ></MatchGame>
+    </template>
+  </TransitionGroup>
 </template>
 
 <script lang="ts">
 import { useFirebase } from "@/hooks/use-firebase";
+import { usePermissions } from "@/hooks/use-permissions";
 import MatchGame from "./MatchGame.vue";
 
 export default {
@@ -19,9 +22,11 @@ export default {
   },
   setup() {
     const { allGames } = useFirebase();
+    const { canSee } = usePermissions();
 
     return {
       allGames,
+      canSee,
     };
   },
 };
