@@ -20,7 +20,7 @@
       <v-card
         class="sf-all-teams--team rounded-lg clickable"
         :color="canSee([team.name]) ? team.color : '#d3d3d3'"
-        @click="() => toggleShow([team.name])"
+        @click="() => toggleShow([team.name.toLowerCase()])"
         v-for="team of allTeams"
         :key="team?.id"
       >
@@ -81,7 +81,7 @@ export default {
     });
 
     const onResize = () => {
-      console.log("on resize");
+      // console.log("on resize");
       smallScreen.value = window.innerWidth < 1024;
       showTeams.value = !smallScreen.value;
     };
@@ -114,7 +114,7 @@ export default {
   padding-bottom: 4rem;
   align-items: center;
   position: relative;
-  margin-top: 150px;
+  margin-top: 120px;
   gap: 2rem;
 
   @media (max-width: 1024px) {

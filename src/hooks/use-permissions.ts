@@ -17,7 +17,7 @@ export function usePermissions() {
 
       show.value =
         (typeof query.show === "string"
-          ? [query.show?.toString().toLowerCase()]
+          ? [query.show?.toLowerCase()]
           : query.show?.map((showFeature) => showFeature!.toLowerCase())) || [];
     },
     {
@@ -52,7 +52,11 @@ export function usePermissions() {
     const normalizedFeatures = ref(
       features.map((feature) => feature.toLowerCase())
     );
-    if (existingShowQuery.value.length === 0 && features.length > 0) {
+
+    if (
+      existingShowQuery.value.length === 0 &&
+      normalizedFeatures.value.length > 0
+    ) {
       router.push({
         path: "/",
         query: {
@@ -64,22 +68,22 @@ export function usePermissions() {
       return;
     }
 
-    const newShowFeatures = existingShowQuery.value.reduce(
-      (acc: string[], curr) => {
-        // loop through new features
-        for (const newFeature of normalizedFeatures.value) {
-          // if it exists already remove it, if not, add it;
-          if (curr === newFeature) {
-            acc = acc.filter((feature) => feature !== newFeature);
-          } else {
-            acc.push(newFeature);
-          }
-        }
+    // Add new feature (if duplicates, remove both);
+    const mappedFeature = [
+      ...existingShowQuery.value,
+      ...normalizedFeatures.value,
+    ].reduce((acc, curr) => {
+      // if exists, remove
+      if (acc[curr]) {
+        delete acc[curr];
+      } else {
+        acc[curr] = curr;
+      }
 
-        return acc;
-      },
-      existingShowQuery.value
-    );
+      return acc;
+    }, {} as any);
+
+    const newShowFeatures = Object.keys(mappedFeature);
 
     router.push({
       path: "/",
@@ -92,6 +96,8 @@ export function usePermissions() {
 
   return {
     role,
+    show,
+
     canAccess,
     canSee,
     toggleShow,

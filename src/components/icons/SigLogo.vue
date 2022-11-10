@@ -35,8 +35,10 @@
 <style lang="scss" scoped>
 svg {
   fill: #000;
+  min-width: 300px;
 
   @media (max-width: 1024px) {
+    min-width: fit-content;
     height: 50px;
   }
 }

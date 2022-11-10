@@ -4,13 +4,11 @@
       <div class="sidebar">
         <div class="wrapper">
           <nav>
-            <RouterLink :to="'/?role=' + role" :query="{ role: role }"
-              >Scores</RouterLink
+            <router-link :to="{ path: '/', query: route.query }"
+              >Scores</router-link
             >
-            <RouterLink
-              :to="'/leaderboard?role=' + role"
-              :query="{ role: role }"
-              >Leaderboard</RouterLink
+            <router-link :to="{ path: '/leaderboard', query: route.query }"
+              >Leaderboard</router-link
             >
           </nav>
           <HelloWorld msg="Foosball dashboard!" />
@@ -19,7 +17,7 @@
     </header>
 
     <section class="wrapper-teams base-pad">
-      <AllTeams :expanded="route.path !== 'leaderboard'"></AllTeams>
+      <AllTeams></AllTeams>
     </section>
   </div>
 
@@ -41,11 +39,9 @@ export default {
   },
   setup() {
     const route = useRoute();
-    const { role } = usePermissions();
 
     return {
       route,
-      role,
     };
   },
 };

@@ -34,6 +34,8 @@ h1 {
   font-weight: 900;
   line-height: 28px;
   text-transform: uppercase;
+  width: 200px;
+  margin-top: 20px;
 
   @media (max-width: 1024px) {
     display: none;
