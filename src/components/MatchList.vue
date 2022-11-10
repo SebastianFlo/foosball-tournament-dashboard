@@ -63,6 +63,10 @@ export default {
     top: -50px;
     margin-top: 2rem;
     margin-right: 2rem;
+
+    @media (max-width: 1024px) {
+      top: 0px;
+    }
   }
 
   @media (max-width: 1024px) {
