@@ -28,7 +28,6 @@ const COLORS = [
   "#4444E1b3",
   "#9869e4b3",
   "#ffe1eeb3",
-  "#ffedc4b3",
   "#CCECFAb3",
 ];
 
@@ -40,9 +39,11 @@ const db = getFirestore();
 
 const docRef = doc(db, "foosball", "coQtj9dkZ0cl2aSWKV3x");
 const docSnap = ref<any>({});
+const loading = ref<boolean>(true);
 
 getDoc(docRef).then((snap) => {
   docSnap.value = snap;
+  loading.value = false;
 });
 
 const allGames = ref<Game[]>([]);
@@ -232,8 +233,9 @@ export function useFirebase() {
     };
 
     updateGameandTeams({
-      teams: [...allTeams.value, newTeam],
-      games: [...allGames.value, ...generateGames(newTeam)],
+      teams: [newTeam, ...allTeams.value],
+      games: [...generateGames(newTeam), ...allGames.value],
+      showLoader: true,
     });
   };
 
@@ -310,9 +312,11 @@ export function useFirebase() {
   const updateGameandTeams = async ({
     teams,
     games,
+    showLoader = false,
   }: {
     teams: Team[];
     games: Game[];
+    showLoader?: boolean;
   }) => {
     const newDocData = {
       ...docSnap.value.data(),
@@ -320,11 +324,17 @@ export function useFirebase() {
       games,
     };
 
+    if (showLoader) {
+      loading.value = true;
+    }
+
     await updateDoc(docRef, newDocData);
+
+    loading.value = false;
   };
 
   return {
-    app,
+    loading,
 
     allGames,
     allTeams,
