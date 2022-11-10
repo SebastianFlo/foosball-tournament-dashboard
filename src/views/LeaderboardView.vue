@@ -78,7 +78,7 @@ export default {
   align-items: center;
   width: 100%;
   gap: 1rem;
-  // grid-area: right;
+  margin-bottom: 2rem;
 
   h1 {
     font-size: 28px;
@@ -166,9 +166,6 @@ export default {
         font-size: 0.8rem;
         text-transform: uppercase;
         grid-area: name;
-      }
-
-      .v-chip {
       }
     }
   }

@@ -1,9 +1,10 @@
 <template>
   <v-dialog v-model="dialog" width="500" @click:outside="$emit('close')">
-    <v-card class="rounded-xl pa-6">
+    <v-card color="#647689" class="rounded-xl pa-6">
       <v-form @submit="addTeam" v-model="valid">
         <v-card-title class="text-h5 grey lighten-2">
           <v-text-field
+            class="text-white"
             variant="outlined"
             v-model="teamName"
             label="Team Name"
@@ -12,13 +13,12 @@
           ></v-text-field>
         </v-card-title>
 
-        <v-divider></v-divider>
-
         <v-container>
           <v-row>
-            <v-col>
+            <v-col cols="12" sm="6">
               <!-- TODO: Image -->
               <v-text-field
+                class="text-white"
                 variant="underlined"
                 v-model="firstPlayerName"
                 label="First Player"
@@ -27,11 +27,10 @@
               ></v-text-field>
             </v-col>
 
-            <v-divider class="mx-4" vertical></v-divider>
-
-            <v-col>
+            <v-col cols="12" sm="6">
               <!-- TODO: Image -->
               <v-text-field
+                class="text-white"
                 variant="underlined"
                 v-model="secondPlayerName"
                 label="Second Player"
@@ -46,7 +45,7 @@
 
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn type="submit"> Add team </v-btn>
+          <v-btn class="text-white" type="submit"> Add team </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>

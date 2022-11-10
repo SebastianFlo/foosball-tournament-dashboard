@@ -1,5 +1,5 @@
 <template>
-  <main class="sf-scoreboard pr-5">
+  <main class="sf-scoreboard">
     <MatchList></MatchList>
   </main>
 </template>
@@ -15,5 +15,9 @@ import MatchList from "@/components/MatchList.vue";
   justify-self: center;
   height: 100%;
   overflow: scroll;
+
+  @media (min-width: 1024px) {
+    padding-right: 20px;
+  }
 }
 </style>

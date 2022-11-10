@@ -9,7 +9,7 @@
     <v-btn
       v-if="smallScreen"
       variant="tonal"
-      color="white"
+      color="#fff"
       elevation="2"
       outlined
       @click="toggleTeams"
@@ -52,7 +52,7 @@ import IconEdit from "@/components/icons/IconEdit.vue";
 import IconFootball from "@/components/icons/IconFootball.vue";
 import { useFirebase } from "@/hooks/use-firebase";
 import { usePermissions } from "@/hooks/use-permissions";
-import { computed, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from "vue";
 import CreateTeam from "./CreateTeam.vue";
 
 export default {
@@ -64,9 +64,27 @@ export default {
 
     const editTeam = () => {};
     const dialog = ref(false);
-
-    const smallScreen = computed(() => window.innerWidth < 1024);
+    const smallScreen = ref(false);
     const showTeams = ref(!smallScreen.value);
+
+    onMounted(() => {
+      smallScreen.value = window.innerWidth < 1024;
+      showTeams.value = !smallScreen.value;
+
+      nextTick(() => {
+        window.addEventListener("resize", onResize);
+      });
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("resize", onResize);
+    });
+
+    const onResize = () => {
+      console.log("on resize");
+      smallScreen.value = window.innerWidth < 1024;
+      showTeams.value = !smallScreen.value;
+    };
 
     const toggleTeams = () => {
       showTeams.value = !showTeams.value;
@@ -101,6 +119,9 @@ export default {
 
   @media (max-width: 1024px) {
     margin-top: 50px;
+    button {
+      width: 100%;
+    }
   }
 
   button.sf-all-teams--create {
@@ -112,7 +133,6 @@ export default {
     font-style: italic;
     letter-spacing: 5px;
     background: var(--vt-c-white);
-    border: 2px solid var(--sg-green);
 
     .v-btn__content {
       display: flex;
@@ -121,6 +141,7 @@ export default {
       svg {
         width: 25px;
         fill: black;
+        margin-left: 10px;
       }
     }
   }

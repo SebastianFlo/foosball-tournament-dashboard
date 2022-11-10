@@ -11,8 +11,8 @@ export function usePermissions() {
   watch(
     () => route.query,
     (query) => {
-      console.log("role", query.role);
-      console.log("show", query.show);
+      // console.log("role", query.role);
+      // console.log("show", query.show);
       role.value = query.role?.toString().toLowerCase() || "";
 
       show.value =

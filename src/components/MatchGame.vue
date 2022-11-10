@@ -145,6 +145,9 @@ export default {
     h4 {
       flex: 1;
       text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 16ch;
 
       margin-top: 4px;
       color: var(--vt-c-black);
@@ -152,8 +155,8 @@ export default {
 
     h3 {
       flex: 1;
-      text-overflow: clip;
-      text-overflow: ellipsis ellipsis;
+      white-space: nowrap;
+      max-width: 16ch;
 
       color: var(--vt-c-white);
       text-transform: uppercase;
@@ -181,8 +184,10 @@ export default {
       h4 {
         text-transform: uppercase;
         font-size: small;
-        text-decoration: underline;
+        font-weight: 600;
+        font-style: italic;
         color: var(--vt-c-black);
+        opacity: 0.8;
       }
       height: 100%;
       flex: 1;
@@ -201,10 +206,19 @@ export default {
     }
   }
 
+  &--first {
+    h4 {
+      // border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
+  }
+
   &--second {
     h3 {
       color: var(--vt-c-white);
       border-radius: 0px 0px 8px 8px;
+    }
+    h4 {
+      // border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     }
   }
 }
