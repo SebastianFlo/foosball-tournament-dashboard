@@ -1,3 +1,5 @@
+export default {};
+
 // import type { Game, Player, Team } from "@/models/game.models";
 // import { computed, ref, type Ref } from "vue";
 // import { useFirebase } from "./use-firebase";
