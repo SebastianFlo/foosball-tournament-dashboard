@@ -82,9 +82,9 @@ export default {
 
   h1 {
     font-size: 28px;
-    font-weight: 900;
+    // font-weight: 900;
     line-height: 28px;
-    text-transform: uppercase;
+    // text-transform: uppercase;
     padding: 2rem;
   }
 
