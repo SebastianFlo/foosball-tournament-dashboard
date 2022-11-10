@@ -39,7 +39,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore();
 
 const docRef = doc(db, "foosball", "coQtj9dkZ0cl2aSWKV3x");
-const docSnap = await getDoc(docRef);
+const docSnap = ref<any>({});
+
+getDoc(docRef).then((snap) => {
+  docSnap.value = snap;
+});
 
 const allGames = ref<Game[]>([]);
 const allTeams = ref<Team[]>([]);
@@ -311,7 +315,7 @@ export function useFirebase() {
     games: Game[];
   }) => {
     const newDocData = {
-      ...docSnap.data(),
+      ...docSnap.value.data(),
       teams,
       games,
     };

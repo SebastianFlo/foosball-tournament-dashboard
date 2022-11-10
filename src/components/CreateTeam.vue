@@ -55,7 +55,6 @@
 
 <script lang="ts">
 import { useFirebase } from "@/hooks/use-firebase";
-import router from "@/router";
 import { computed, ref, type PropType } from "vue";
 import { useRouter } from "vue-router";
 
@@ -80,7 +79,7 @@ export default {
     const firstPlayerName = ref("");
     const secondPlayerName = ref("");
 
-    const requiredRules = [(v) => !!v || "Field is required"];
+    const requiredRules = [(v: string) => !!v || "Field is required"];
 
     const dialog = computed(() => props.isOpen);
 
