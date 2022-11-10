@@ -7,7 +7,7 @@
     </v-btn>
 
     <v-btn
-      v-if="smallScreen"
+      v-if="smallScreen && allTeams.length"
       variant="tonal"
       color="#fff"
       elevation="2"

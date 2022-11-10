@@ -6,7 +6,7 @@
       color="d3d3d3"
     ></v-progress-circular>
 
-    <h1 v-if="!loading && !allGames.length">
+    <h1 v-if="!loading && !allGames.length" class="sf-match-list--default">
       Games will be generated once there are at least 2 teams
 
       <IconCarrot />
@@ -56,6 +56,14 @@ export default {
   padding: 3rem;
   margin-top: 10rem;
   height: fit-content;
+
+  &--default {
+    display: flex;
+    justify-content: center;
+    svg {
+      width: 200px;
+    }
+  }
 
   .v-progress-circular {
     position: absolute;
